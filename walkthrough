@@ -1,0 +1,11 @@
+download the package from fdf page
+unzip the 'sources' file. It will become 'minilibx'
+cd minilibx
+sudo cp libmlx.a /usr/lib/X11/.
+sudo cp libmlx_Linux.a /usr/lib/X11/.
+sudo cp mlx.h /usr/include/.
+
+Then make main.c file from online tutorial
+
+compile like this: gcc main.c minilibx/libmlx_Linux.a -L/usr/lib/x86_64-linux-gnu -lXext -lX11 -lm
+
