@@ -12,13 +12,17 @@
 
 #include "fdf.h"
 /*
-ft_valid checks for validity of map file used as program parameter
-Then ft_startfdf starts the program using argv[1] to access map file
-*/
-int	main(int argc, char **argv)
+Draws the map using map file passed by ft_startffdf
+get array of t_point from map using ft_getpoints (refer to fdf.h for t_point)
+draw points first with ft_drawpoints, then connect rows and colums
+with ft_joinrows and ft_joincolumns respectively.
+*/1
+void    ft_drawmap(char *map)
 {
-	if (ft_valid(argc, argv))
-		ft_startfdf(argv[1]);
-	else
-		printf("ERROR: invalid parameter\n");
+	t_point *points;
+
+	points = ft_getpoints(map);
+	ft_drawpoints(points);
+	ft_joinrows(points);
+	ft_joincolumns(points);
 }

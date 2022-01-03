@@ -12,13 +12,14 @@
 
 #include "fdf.h"
 /*
-ft_valid checks for validity of map file used as program parameter
-Then ft_startfdf starts the program using argv[1] to access map file
+Closes fdf once Esc key (0xff1b) is pressed
 */
-int	main(int argc, char **argv)
+int     ft_closefdf(int keycode, t_vars *vars)
 {
-	if (ft_valid(argc, argv))
-		ft_startfdf(argv[1]);
-	else
-		printf("ERROR: invalid parameter\n");
+        if (keycode == 0xff1b)
+	{
+                mlx_destroy_window(vars->mlx, vars->win);
+		printf("Esc pressed. Exiting program ...\n");
+		exit (0);
+	}
 }

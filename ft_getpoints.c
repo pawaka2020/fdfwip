@@ -12,13 +12,16 @@
 
 #include "fdf.h"
 /*
-ft_valid checks for validity of map file used as program parameter
-Then ft_startfdf starts the program using argv[1] to access map file
+ft_getstring gets string from map file using read()
+then ft_convert converts the string into point array.
+ft_getpoints returns the result from ft_convertpoint.
 */
-int	main(int argc, char **argv)
+t_points	*ft_getpoints(char *map)
 {
-	if (ft_valid(argc, argv))
-		ft_startfdf(argv[1]);
-	else
-		printf("ERROR: invalid parameter\n");
+	char	*str;
+	t_point	*points;
+
+	str = ft_getstring(map);
+	points = ft_convert(str);
+	return (0);
 }
