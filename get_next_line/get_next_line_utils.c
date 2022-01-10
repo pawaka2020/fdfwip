@@ -28,7 +28,7 @@ int	ft_nlpresent(char *str)
 	return (0);
 }
 
-int	ft_strlen(char *s)
+int	ft_strlen2(char *s)
 {
 	int	i;
 
@@ -48,7 +48,7 @@ char	*ft_append(char *src, char *dst)
 
 	i = 0;
 	j = 0;
-	newbuffer = malloc(ft_strlen(src) + ft_strlen(dst) + 1);
+	newbuffer = malloc(ft_strlen2(src) + ft_strlen2(dst) + 1);
 	if (!newbuffer)
 		return (0);
 	while (src && src[i])

@@ -18,7 +18,7 @@
 # include <stdlib.h>
 
 int		ft_nlpresent(char *str);
-int		ft_strlen(char *s);
+int		ft_strlen2(char *s);
 char	*ft_append(char *src, char *dst);
 char	*ft_getrawline(int fd, char *left_str, int size);
 char	*ft_prenl(char *rawline);

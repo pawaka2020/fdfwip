@@ -13,11 +13,20 @@
 #ifndef FDF_H
 # define FDF_H
 
-# include <mlx.h>
+//# include <mlx.h>
 //for testing purposes only
 # include <stdio.h>
 //for exit(0) allowing termination of program
 # include <stdlib.h>
+/*for write()*/
+# include <unistd.h>
+/*for O_RDLY to be used together with write()*/
+# include <fcntl.h>
+/*for malloc() and free()*/
+# include <stdlib.h>
+/*for reading from .fdf file*/
+#include "get_next_line/get_next_line.h"
+#include "libft/libft.h"
 /*
 blah blah blah comment
 */
@@ -37,6 +46,13 @@ typedef struct s_point
 	int	y;
 	int	color;
 }	t_point;
+/*points metadata, for creating point array*/
+typedef struct s_pointmeta
+{
+	int size;
+	int rows;
+	int columns;
+}	t_pointmeta;
 //fdf functions
 /*
 Makes sure the parameter is a valid map file.
@@ -59,5 +75,18 @@ int	ft_closefdf(int keycode, t_vars *vars);
 Draws the map using map file passed by ft_startffd
 */
 void	ft_drawmap(char *map);
+/*
+ft_getstring gets string from map file using read()
+then ft_convert converts the string into point array.
+ft_getpoints returns the result from ft_convertpoint.
+*/
+t_point	*ft_getpoints(char *map);
+/*
+Uses read() to convert map in .fdf file into string.
+Returns the string afterward.
+*/
+char *ft_getstring(char *map);
+/*converts map content from ft_getstring into a point array*/
+t_point *ft_convert(char *str);
 
 #endif

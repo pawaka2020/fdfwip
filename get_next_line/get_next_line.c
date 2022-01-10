@@ -91,7 +91,7 @@ char	*ft_postnl(char *rawline)
 		free(rawline);
 		return (0);
 	}
-	line = malloc((ft_strlen(rawline) - i) + 1);
+	line = malloc((ft_strlen2(rawline) - i) + 1);
 	if (!line)
 		return (0);
 	i++;
@@ -109,7 +109,7 @@ char	*get_next_line(int fd)
 	static char	*rawline;
 	int			size;
 
-	size = BUFFER_SIZE;
+	size = 100000;
 	if (fd < 0 || size <= 0)
 		return (0);
 	rawline = ft_getrawline(fd, rawline, size);
