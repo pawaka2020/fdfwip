@@ -31,25 +31,19 @@ int     ft_closefdf(int keycode, t_vars *vars)
 	}
 }
 
-void    ft_drawmap(char *map)
-{
-	t_point *points;
-
-	points = ft_getpoints(map);
-	// ft_drawpoints(points);
-	// ft_joinrows(points);
-	// ft_joincolumns(points);
-}
-
 int     ft_startfdf(char *map)
 {
         printf("map loaded: %s\n", map);
-
         t_vars  vars;
+	//t_point	*points;
+	//change
+	t_mapdata	mapdata;
 
         vars.mlx = mlx_init();
         vars.win = mlx_new_window(vars.mlx, 1440, 900, "fdf");
-				ft_drawmap(map);
+	//points = ft_drawmap(map);
+	mapdata = ft_drawmap(map);
+	ft_drawpoints(mapdata, vars.mlx, vars.win);
         mlx_hook(vars.win, 2, 1L<<0, ft_closefdf, &vars);
         mlx_loop(vars.mlx);
 }
