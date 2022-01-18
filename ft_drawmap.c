@@ -38,7 +38,7 @@ t_pointmeta getmeta(char *str)
 			}
 		}
 	}
-	meta.size++;
+	//meta.size++;
 	meta.rows++;
 	meta.columns--;
 	printf("\nsize = %d\n", meta.size);
@@ -58,28 +58,15 @@ void centralize(int *x, int *y, t_pointmeta meta)
 
 	centerprogramX = 1440/2;
 	centerprogramY = 900/2;
-	//double columns = ((meta.columns -1)/2.0) * 100.0;
-	//double rows = ((meta.rows -1)/2.0) * 100.0;
-	//printf("columns = %f, rows = %f\n", columns, rows);
 	centershapeX = ((meta.columns - 1)/2.0) * 100;
 	centershapeY = ((meta.rows - 1)/2.0) * 100;
-	//centershapeX = columns;
-	//centershapeY = rows;
 	printf("centerprogramX = %d, centerprogramY = %d\n", centerprogramX, centerprogramY);
 	printf("centershapeX = %f, centershapeY = %f\n", centershapeX, centershapeY);
-	deltaX = centerprogramX - centershapeX;
-	deltaY = centerprogramY - centershapeY;
+	//deltaX = centerprogramX - centershapeX;
+	//deltaY = centerprogramY - centershapeY;
 	printf("deltaX = %d, deltaY = %d\n", deltaX, deltaY);
-	
 	*x = *x + (centerprogramX - centershapeX);
 	*y = *y + (centerprogramY - centershapeY);
-	
-	/*
-	*x = *x + 300;
-	*y = *y + 300;
-	*/
-	//x = *x + deltaX;
-	//y = *y + deltaY;
 }
 
 t_mapdata ft_convert(char *str)
@@ -115,6 +102,8 @@ t_mapdata ft_convert(char *str)
 			mapdata.points[i].x = x;
 			mapdata.points[i].color = 0;
 			mapdata.points[i].y = y;
+          		//printf("FINAL: x = %d, y = %d\n", mapdata.points[i-1].x, mapdata.points[i-1].y);
+
 			//transform(&x, &y);
 			printf("%d: x = %d, y = %d\n", i, mapdata.points[i].x, mapdata.points[i].y);
 			i++;
@@ -125,8 +114,20 @@ t_mapdata ft_convert(char *str)
 			x = originX;
 			y = y + len;
 		}
+		//mapdata.points[i].x = x;
+		//mapdata.points[i].y = y;
+		//printf("FINAL: x = %d, y = %d\n", mapdata.points[i-1].x, mapdata.points[i-1].y);
+		//transform(&mapdata.points[i]x, &y);
 		str++;
 	}
+
+	i = 0;
+	while (i < mapdata.meta.size)
+	{
+		printf("FINAL: x = %d, y = %d\n", mapdata.points[i].x, mapdata.points[i].y);
+		i++;
+	}
+
 	return (mapdata);
 }
 

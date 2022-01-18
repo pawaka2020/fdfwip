@@ -14,18 +14,14 @@
 //squrt is rquired
 void	ft_drawline(t_point point1, t_point point2, void *mlx, void *win)
 {
-/*
-	point1 = {0, 0, 0};
-	point2 = {0, 5, 0};
-*/
 	double deltaX;
 	double deltaY;
 	int pixels;
 	double pixelX;
 	double pixelY;
 
-	deltaX = point1.x - point2.x;
-	deltaY = point1.y - point2.y;
+	deltaX = point2.x - point1.x;
+	deltaY = point2.y - point1.y;
 	pixels = sqrt((deltaX * deltaX) + (deltaY * deltaY));
 	deltaX /= pixels;
 	deltaY /= pixels;
@@ -52,16 +48,55 @@ void	printdots(void *mlx, void *win, t_mapdata mapdata)
 	}
 }
 
+void	printrows(void *mlx, void *win, t_mapdata mapdata)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (i < mapdata.meta.size -1)
+	{
+		ft_drawline(mapdata.points[i], mapdata.points[i + 1], mlx, win);
+		//printf("drawing from %d to %d\n", i, i+1);
+		i++;
+		j++;
+		if (j == mapdata.meta.columns - 1)
+		{
+			i++;
+			j = 0;
+		}
+	}
+}
+
+void	printcolumns(void *mlx, void *win, t_mapdata mapdata)
+{
+	int	i;
+	int	j;
+	int	k;
+
+	i = 0;
+	j = 0;
+	k = 0;
+	while  (k < mapdata.meta.columns )
+	{
+		while (j < mapdata.meta.rows - 2)
+		{
+			ft_drawline(mapdata.points[i], mapdata.points[i + mapdata.meta.columns], mlx, win);
+			//printf("DRAWCOLUMN: %d to %d\n", i, i + mapdata.meta.columns);
+			i = i + mapdata.meta.columns;
+			j++;
+		}
+		j = 0;
+		k++;
+		i = k;
+	}
+}
+
 void    ft_drawpoints(t_mapdata mapdata, void *mlx, void *win)
 {
-	//mlx_pixel_put(mlx, win, 100, 100, 0xFFFFFFFF);
-	//mlx_pixel_put(mlx, win, 200, 500, 0xFFFFFFFF);
-	//t_point point1 = {200, 700, 0xFFFFFFFF};
-	//t_point point2 = {100, 500,0XFFFFFFFF};
-	//ft_drawline(mapdata.points[1], mapdata.points[2], mlx, win);
-
-	printdots(mlx, win, mapdata);
-	mlx_pixel_put(mlx, win, 1440/2, 900/2, 0xFF0000);
-
+	//mlx_pixel_put(mlx, win, 1440/2, 900/2, 0xFF0000);
+	printrows(mlx, win, mapdata);
+	printcolumns(mlx, win, mapdata);
 }
 //mlx_pixel_put(mlx, win, 100, 100, 0xFFFFFFFF);
