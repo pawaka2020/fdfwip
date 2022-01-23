@@ -102,32 +102,27 @@ t_mapdata ft_convert(char *str)
 			mapdata.points[i].x = x;
 			mapdata.points[i].color = 0;
 			mapdata.points[i].y = y;
-          		//printf("FINAL: x = %d, y = %d\n", mapdata.points[i-1].x, mapdata.points[i-1].y);
-
-			//transform(&x, &y);
 			printf("%d: x = %d, y = %d\n", i, mapdata.points[i].x, mapdata.points[i].y);
 			i++;
 		}
 		else if (*str == '\n')
 		{
-			//x = -100;
 			x = originX;
 			y = y + len;
 		}
-		//mapdata.points[i].x = x;
-		//mapdata.points[i].y = y;
-		//printf("FINAL: x = %d, y = %d\n", mapdata.points[i-1].x, mapdata.points[i-1].y);
-		//transform(&mapdata.points[i]x, &y);
 		str++;
 	}
-
+	/*
 	i = 0;
 	while (i < mapdata.meta.size)
 	{
 		printf("FINAL: x = %d, y = %d\n", mapdata.points[i].x, mapdata.points[i].y);
 		i++;
 	}
-
+	*/
+	//mapdata = ft_transform(mapdata, 0.7854, 0.52);
+	//mapdata = ft_transform(mapdata, 1.5708, 0.52);
+	mapdata = ft_transform(mapdata, 0.3, 0.52);
 	return (mapdata);
 }
 
