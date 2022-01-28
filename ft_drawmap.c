@@ -17,7 +17,7 @@ get array of t_point from map using ft_getpoints (refer to fdf.h for t_point)
 draw points first with ft_drawpoints, then connect rows and colums
 with ft_joinrows and ft_joincolumns respectively.
 */
-t_pointmeta getmeta(char *str)
+t_pointmeta	getmeta(char *str)
 {
 	t_pointmeta	meta;
 
@@ -38,16 +38,13 @@ t_pointmeta getmeta(char *str)
 			}
 		}
 	}
-	//meta.size++;
 	meta.rows++;
 	meta.columns--;
-	printf("\nsize = %d\n", meta.size);
-	printf("rows = %d\n", meta.rows);
-	printf("columns = %d\n", meta.columns);
+	printf("\nsize = %d\nrows = %d\ncolumns = %d\n", meta.size, meta.rows, meta.columns);
 	return (meta);
 }
 //resolution is 1440 x 900
-void centralize(int *x, int *y, t_pointmeta meta)
+void	centralize(int *x, int *y, t_pointmeta meta)
 {
 	int	centerprogramX;
 	int	centerprogramY;
@@ -60,16 +57,44 @@ void centralize(int *x, int *y, t_pointmeta meta)
 	centerprogramY = 900/2;
 	centershapeX = ((meta.columns - 1)/2.0) * 100;
 	centershapeY = ((meta.rows - 1)/2.0) * 100;
-	printf("centerprogramX = %d, centerprogramY = %d\n", centerprogramX, centerprogramY);
-	printf("centershapeX = %f, centershapeY = %f\n", centershapeX, centershapeY);
-	//deltaX = centerprogramX - centershapeX;
-	//deltaY = centerprogramY - centershapeY;
-	printf("deltaX = %d, deltaY = %d\n", deltaX, deltaY);
+	//printf("centerprogramX = %d, centerprogramY = %d\n", centerprogramX, centerprogramY);
+	//printf("centershapeX = %f, centershapeY = %f\n", centershapeX, centershapeY);
+	//printf("deltaX = %d, deltaY = %d\n", deltaX, deltaY);
 	*x = *x + (centerprogramX - centershapeX);
 	*y = *y + (centerprogramY - centershapeY);
 }
 
-t_mapdata ft_convert(char *str)
+int	ft_getnbrlen(int i)
+{
+	int	len;
+
+	len = 0;
+	if (i < 0)
+	{
+		i = i * -1;
+		len++;
+	}
+	while (i > 0)
+	{
+		i = i / 10;
+		len++;
+	}
+	return (len);
+}
+
+
+int	ft_setz(char **str)
+{
+	int	i;
+	int	nbrlen;
+
+	i = ft_atoi(*str);
+	nbrlen = ft_getnbrlen(i);
+	*str = *str + nbrlen;
+	return(i);
+}
+
+t_mapdata	ft_convert(char *str)
 {
 	t_mapdata	mapdata;
 	int	x;
@@ -89,37 +114,41 @@ t_mapdata ft_convert(char *str)
 	len = 100;
 	x = originX;
 	y = originY;
-	//printf("after centalize, x = %d, y = %d\n", x, y);
-	z = -1;
+	//z = 0;
 	i = 0;
 	printf("\npoints:\n");
 	while (*str)
 	{
-
-		if(*str >= '0' && *str <= '9')
+	/*
+		z = 1;
+		if (*str == '-')
+		{
+			z = -1;
+		}
+	*/
+		if(*str == '-' || (*str >= '0' && *str <= '9'))
 		{
 			x = x + len;
 			mapdata.points[i].x = x;
-			mapdata.points[i].color = 0;
 			mapdata.points[i].y = y;
-			printf("%d: x = %d, y = %d\n", i, mapdata.points[i].x, mapdata.points[i].y);
+			mapdata.points[i].z = ft_setz(&str);
+			//mapdata.points[i].z = 0;
+			//ft_setcolor(&mapdata.points[i].color, &mapdata.points[i].colorset);
+			mapdata.points[i].color = 0;
+			mapdata.points[i].colorset = 0;
+			printf("%d: x = %d, y = %d, z = %d\n", i, mapdata.points[i].x, mapdata.points[i].y, mapdata.points[i].z);
 			i++;
+
 		}
 		else if (*str == '\n')
 		{
 			x = originX;
 			y = y + len;
+			str++;
 		}
-		str++;
+		else if (*str == ' ')
+			str++;
 	}
-	/*
-	i = 0;
-	while (i < mapdata.meta.size)
-	{
-		printf("FINAL: x = %d, y = %d\n", mapdata.points[i].x, mapdata.points[i].y);
-		i++;
-	}
-	*/
 	//mapdata = ft_transform(mapdata, 0.7854, 0.52);
 	mapdata = ft_transform(mapdata, 0.7854, 0.7500);
 	//mapdata = ft_transform(mapdata, 1.5708, 0.52);
@@ -127,7 +156,7 @@ t_mapdata ft_convert(char *str)
 	return (mapdata);
 }
 
-char *ft_getstring(char *map)
+char	*ft_getstring(char *map)
 {
 	int fd;
 	char *str;
@@ -160,9 +189,8 @@ t_mapdata	ft_getpoints(char *map)
 	mapdata = ft_convert(str);
 	return (mapdata);
 }
-
 //t_point	*ft_drawmap(char *map)
-t_mapdata ft_drawmap(char *map)
+t_mapdata	ft_drawmap(char *map)
 {
 	t_mapdata mapdata;
 	mapdata = ft_getpoints(map);

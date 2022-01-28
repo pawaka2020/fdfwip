@@ -44,7 +44,8 @@ void	printdots(void *mlx, void *win, t_mapdata mapdata)
 	i = 0;
 	while (i < mapdata.meta.size)
 	{
-		mlx_pixel_put(mlx, win, mapdata.points[i].x, mapdata.points[i].y, 0xFFFFFFFF);
+		//mlx_pixel_put(mlx, win, mapdata.points[i].x, mapdata.points[i].y, 0xFFFFFFFF);
+		mlx_pixel_put(mlx, win, mapdata.points[i].x, mapdata.points[i].y, -1);
 		i++;
 	}
 }
