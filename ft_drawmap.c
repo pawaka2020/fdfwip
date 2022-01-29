@@ -69,11 +69,14 @@ int	ft_getnbrlen(int i)
 	int	len;
 
 	len = 0;
+	
 	if (i < 0)
 	{
 		i = i * -1;
 		len++;
 	}
+	else if (i == 0)
+		return (1);
 	while (i > 0)
 	{
 		i = i / 10;
@@ -119,13 +122,6 @@ t_mapdata	ft_convert(char *str)
 	printf("\npoints:\n");
 	while (*str)
 	{
-	/*
-		z = 1;
-		if (*str == '-')
-		{
-			z = -1;
-		}
-	*/
 		if(*str == '-' || (*str >= '0' && *str <= '9'))
 		{
 			x = x + len;

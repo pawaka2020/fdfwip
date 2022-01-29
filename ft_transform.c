@@ -89,6 +89,9 @@ t_mapdata       ft_transform(t_mapdata mapdata, float rad1, float rad2)
 		mapdata2.points[i].y = y;
 		//upward flipping
 		mapdata2.points[i].y = centerY + (deltaY * cos(rad2));
+		//with z
+		mapdata2.points[i].y = mapdata2.points[i].y + (mapdata2.points[i].z * sin(rad2) * 10 * -1);
+		
 		printf("after transformation, x = %d, y = %d, i = %d\n", mapdata2.points[i].x, mapdata2.points[i].y, i);
 		i++;
 	}

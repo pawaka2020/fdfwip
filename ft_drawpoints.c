@@ -60,7 +60,7 @@ void	printrows(void *mlx, void *win, t_mapdata mapdata)
 	while (i < mapdata.meta.size -1)
 	{
 		ft_drawline(mapdata.points[i], mapdata.points[i + 1], mlx, win);
-		printf("PRINTROW:drawing from %d to %d\n", i, i+1);
+		//printf("PRINTROW:drawing from %d to %d\n", i, i+1);
 		i++;
 		j++;
 		if (j == mapdata.meta.columns - 1)
