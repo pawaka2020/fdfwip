@@ -19,6 +19,7 @@ void	ft_drawline(t_point point1, t_point point2, void *mlx, void *win)
 	int pixels;
 	double pixelX;
 	double pixelY;
+	int color;
 
 	deltaX = point2.x - point1.x;
 	deltaY = point2.y - point1.y;
@@ -27,12 +28,18 @@ void	ft_drawline(t_point point1, t_point point2, void *mlx, void *win)
 	deltaY /= pixels;
 	pixelX = point1.x;
 	pixelY = point1.y;
+	color = point1.color;
+	int deltacolor = point2.color - point1.color;
+	deltacolor /= pixels;
 	while (pixels)
 	{
-		//mlx_pixel_put(mlx, win, pixelX, pixelY, 0xFFFFFFFF);
-		mlx_pixel_put(mlx, win, pixelX, pixelY, 0x565251);
+		//determine color here
+		//int color =
+		mlx_pixel_put(mlx, win, pixelX, pixelY, color); 
+		//mlx_pixel_put(mlx, win, pixelX, pixelY, 0xFFFFFF);
 		pixelX += deltaX;
 		pixelY += deltaY;
+		color += deltacolor;
 		pixels--;
 	}
 }
@@ -60,7 +67,6 @@ void	printrows(void *mlx, void *win, t_mapdata mapdata)
 	while (i < mapdata.meta.size -1)
 	{
 		ft_drawline(mapdata.points[i], mapdata.points[i + 1], mlx, win);
-		//printf("PRINTROW:drawing from %d to %d\n", i, i+1);
 		i++;
 		j++;
 		if (j == mapdata.meta.columns - 1)
@@ -102,6 +108,7 @@ void    ft_drawpoints(t_mapdata mapdata, void *mlx, void *win)
 	//ft_drawline(mapdata.points[0], mapdata.points[0 + 1], mlx, win);
 	printcolumns(mlx, win, mapdata);
 	//printdots(mlx, win, mapdata);
-	mlx_pixel_put(mlx, win, 720, 400, 0xFF0000);
+	//mlx_pixel_put(mlx, win, 720, 400, 0xFF0000);
+	mlx_pixel_put(mlx, win, 720, 400, 8388736);
 }
 //mlx_pixel_put(mlx, win, 100, 100, 0xFFFFFFFF);

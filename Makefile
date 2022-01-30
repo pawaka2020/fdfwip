@@ -12,4 +12,4 @@ FLAGS = -Wall -Wextra -Werror
 all:
 	gcc *.c *.a minilibx/libmlx_Linux.a -L/usr/lib/x86_64-linux-gnu -lXext -lX11 -lm
 map:	all
-	./a.out maps/easy.fdf
+	./a.out maps/42.fdf

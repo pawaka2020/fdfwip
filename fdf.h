@@ -101,10 +101,12 @@ Returns the string afterward.
 char	*ft_getstring(char *map);
 /*converts map content from ft_getstring into a point array*/
 //t_point *ft_convert(char *str);
-t_mapdata	ft_convert(char *str);
+//t_mapdata	ft_convert(char *str);
 
 t_mapdata	ft_transform(t_mapdata mapdata, float rad1, float rad2);
 
 void	ft_drawpoints(t_mapdata	mapdata, void *mlx, void *win);
+
+int	ft_atoi_hexa(char *str);
 
 #endif

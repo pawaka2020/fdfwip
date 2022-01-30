@@ -44,7 +44,7 @@ t_pointmeta	getmeta(char *str)
 	return (meta);
 }
 //resolution is 1440 x 900
-void	centralize(int *x, int *y, t_pointmeta meta)
+void	centralize(int *x, int *y, t_pointmeta meta, int len)
 {
 	int	centerprogramX;
 	int	centerprogramY;
@@ -55,8 +55,9 @@ void	centralize(int *x, int *y, t_pointmeta meta)
 
 	centerprogramX = 1440/2;
 	centerprogramY = 900/2;
-	centershapeX = ((meta.columns - 1)/2.0) * 100;
-	centershapeY = ((meta.rows - 1)/2.0) * 100;
+	//len adjustments here, default 100
+	centershapeX = ((meta.columns - 1)/2.0) * len;
+	centershapeY = ((meta.rows - 1)/2.0) * len;
 	//printf("centerprogramX = %d, centerprogramY = %d\n", centerprogramX, centerprogramY);
 	//printf("centershapeX = %f, centershapeY = %f\n", centershapeX, centershapeY);
 	//printf("deltaX = %d, deltaY = %d\n", deltaX, deltaY);
@@ -69,7 +70,7 @@ int	ft_getnbrlen(int i)
 	int	len;
 
 	len = 0;
-	
+
 	if (i < 0)
 	{
 		i = i * -1;
@@ -85,16 +86,32 @@ int	ft_getnbrlen(int i)
 	return (len);
 }
 
-
-int	ft_setz(char **str)
+void	ft_setpoint(char **str, t_point *point, int x, int y)
 {
-	int	i;
-	int	nbrlen;
+	point->x = x;
+	point->y = y;
+	point->z = ft_atoi(*str);
+	if (point->z <= 0)
+		point->color = 0xFFFFFF;
+	else
+		point->color = (0xFFFFFF) - (838848 * point->z);
+	point->colorset = 0;
+	*str = *str + ft_getnbrlen(point->z);
+}
+//resolution ; 1440 x 900
+int	adjustlength(t_pointmeta meta)
+{
+	int	length;
+	int	columns = meta.columns;
+	int	rows = meta.rows;
 
-	i = ft_atoi(*str);
-	nbrlen = ft_getnbrlen(i);
-	*str = *str + nbrlen;
-	return(i);
+	int size1 = (1440 * 0.75)/columns;
+	int size2 = (900 * 0.75)/rows;
+	if (size1 > size2)
+		length = size2;
+	else
+		length = size1;
+	return (length);
 }
 
 t_mapdata	ft_convert(char *str)
@@ -110,11 +127,12 @@ t_mapdata	ft_convert(char *str)
 
 	mapdata.meta = getmeta(str);
 	mapdata.points = (t_point *)malloc(mapdata.meta.size * sizeof(t_point));
-	originX = -100;
+	//len = 100;
+	len = adjustlength(mapdata.meta);
+	originX = 0 - len;
 	originY = 0;
-	centralize(&originX, &originY, mapdata.meta);
+	centralize(&originX, &originY, mapdata.meta, len);
 	//adjustlength(&len);
-	len = 100;
 	x = originX;
 	y = originY;
 	//z = 0;
@@ -125,16 +143,9 @@ t_mapdata	ft_convert(char *str)
 		if(*str == '-' || (*str >= '0' && *str <= '9'))
 		{
 			x = x + len;
-			mapdata.points[i].x = x;
-			mapdata.points[i].y = y;
-			mapdata.points[i].z = ft_setz(&str);
-			//mapdata.points[i].z = 0;
-			//ft_setcolor(&mapdata.points[i].color, &mapdata.points[i].colorset);
-			mapdata.points[i].color = 0;
-			mapdata.points[i].colorset = 0;
-			printf("%d: x = %d, y = %d, z = %d\n", i, mapdata.points[i].x, mapdata.points[i].y, mapdata.points[i].z);
+			ft_setpoint(&str, &mapdata.points[i], x,  y);
+			printf("%d: x = %d, y = %d, z = %d, color = %d\n", i, mapdata.points[i].x, mapdata.points[i].y, mapdata.points[i].z, mapdata.points[i].color);
 			i++;
-
 		}
 		else if (*str == '\n')
 		{
@@ -146,9 +157,11 @@ t_mapdata	ft_convert(char *str)
 			str++;
 	}
 	//mapdata = ft_transform(mapdata, 0.7854, 0.52);
+	//mapdata = ft_transform(mapdata, 0.7854, 0.7500);
+	//mapdata = ft_transform(mapdata, 0.7854, 0.0);
+	//mapdata = ft_transform(mapdata, 0.25, 0.0);
+	mapdata = ft_transform(mapdata, 0.0, 0.0);
 	mapdata = ft_transform(mapdata, 0.7854, 0.7500);
-	//mapdata = ft_transform(mapdata, 1.5708, 0.52);
-	//mapdata = ft_transform(mapdata, 0.6999, 0.52);
 	return (mapdata);
 }
 
