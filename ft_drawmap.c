@@ -161,7 +161,7 @@ t_mapdata	ft_convert(char *str)
 	//mapdata = ft_transform(mapdata, 0.7854, 0.0);
 	//mapdata = ft_transform(mapdata, 0.25, 0.0);
 	mapdata = ft_transform(mapdata, 0.0, 0.0);
-	mapdata = ft_transform(mapdata, 0.7854, 0.7500);
+	//mapdata = ft_transform(mapdata, 0.7854, 0.7500);
 	return (mapdata);
 }
 

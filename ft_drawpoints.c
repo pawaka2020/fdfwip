@@ -33,10 +33,7 @@ void	ft_drawline(t_point point1, t_point point2, void *mlx, void *win)
 	deltacolor /= pixels;
 	while (pixels)
 	{
-		//determine color here
-		//int color =
-		mlx_pixel_put(mlx, win, pixelX, pixelY, color); 
-		//mlx_pixel_put(mlx, win, pixelX, pixelY, 0xFFFFFF);
+		mlx_pixel_put(mlx, win, pixelX, pixelY, color);
 		pixelX += deltaX;
 		pixelY += deltaY;
 		color += deltacolor;
@@ -51,8 +48,7 @@ void	printdots(void *mlx, void *win, t_mapdata mapdata)
 	i = 0;
 	while (i < mapdata.meta.size)
 	{
-		//mlx_pixel_put(mlx, win, mapdata.points[i].x, mapdata.points[i].y, 0xFFFFFFFF);
-		mlx_pixel_put(mlx, win, mapdata.points[i].x, mapdata.points[i].y, -1);
+		mlx_pixel_put(mlx, win, mapdata.points[i].x, mapdata.points[i].y, 0xFF0000);
 		i++;
 	}
 }

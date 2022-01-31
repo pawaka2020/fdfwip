@@ -39,7 +39,7 @@ double	getradians(float deltaX, float deltaY)
 		oldrad = 4.7124;
 	else if (deltaY < 0 && deltaX > 0)
 		oldrad = 6.2832 + atan(deltaY/deltaX);
-	printf("oldrad = %f\n", oldrad * 57.30);
+	//printf("oldrad = %f\n", oldrad * 57.30);
 	return (oldrad);
 }
 
@@ -59,13 +59,13 @@ t_mapdata       ft_transform(t_mapdata mapdata, float rad1, float rad2)
 	//centerX = 720;
 	//centerY = 400;
 	getcenter(mapdata2, &centerX, &centerY);
-	printf("\ncenterX = %d, centerY = %d\n", centerX, centerY);
+	//printf("\ncenterX = %d, centerY = %d\n", centerX, centerY);
 	int i = 0;
 	while (i < mapdata2.meta.size)
 	//while (i < 3)
 	{
-		int x  = mapdata2.points[i].x;
-		int y =  mapdata2.points[i].y;
+		int x = mapdata2.points[i].x;
+		int y = mapdata2.points[i].y;
 		//printf("!!!!before transformation x = %d, y = %d, i = %d\n", x, y, i);
 		//printf("centerX = %d, centerY = %d\n", centerX, centerY);
 		deltaX = x - centerX;
@@ -74,29 +74,28 @@ t_mapdata       ft_transform(t_mapdata mapdata, float rad1, float rad2)
 		//printf("deltaX = %f, deltaY = %f\n", deltaX, deltaY);
 		//printf("a = %f, b = %f\n", a, b);
 		tangent = sqrt((deltaX * deltaX) + (deltaY * deltaY));
-		printf("deltaX = %f, deltaY = %f\n", deltaX, deltaY);
+		//printf("deltaX = %f, deltaY = %f\n", deltaX, deltaY);
 		oldrad = getradians(deltaX, deltaY);
-		printf("tangent = %f\n", tangent);
+		//printf("tangent = %f\n", tangent);
 		newrad = oldrad + rad1;
-		printf("after addition, newrad = %f\n", newrad);
+		//printf("after addition, newrad = %f\n", newrad);
 		deltaX = tangent * cos(newrad);
 		//Y coordinate in a pixel screen is inverse, so we must inverse the result.
 		deltaY = tangent * sin(newrad);
-		printf("after transformation, deltaX = %f, deltaY = %f\n", deltaX, deltaY);
+		//printf("after transformation, deltaX = %f, deltaY = %f\n", deltaX, deltaY);
 		x = deltaX + centerX;
-		y = deltaY + centerY;
+		//y = deltaY + centerY;
+		y = centerY - deltaY;
 		mapdata2.points[i].x = x;
 		mapdata2.points[i].y = y;
 		//upward flipping
-		mapdata2.points[i].y = centerY + (deltaY * cos(rad2));
+		mapdata2.points[i].y = centerY - (deltaY * cos(rad2));
 		//with z
 		mapdata2.points[i].y = mapdata2.points[i].y + (mapdata2.points[i].z * sin(rad2) * 10 * -1);
-		
-		printf("after transformation, x = %d, y = %d, i = %d\n", mapdata2.points[i].x, mapdata2.points[i].y, i);
+		//printf("after transformation, x = %d, y = %d, i = %d\n", mapdata2.points[i].x, mapdata2.points[i].y, i);
 		i++;
 	}
 	///mapdata2.points[0].color = 9000;
 	///printf("after transform, color = %d\n", mapdata2.points[0].color);
 	return (mapdata2);
-	
 }
