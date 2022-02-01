@@ -24,6 +24,7 @@ t_pointmeta	getmeta(char *str)
 	meta.size = 0;
 	meta.rows = 0;
 	meta.columns = 0;
+	meta.length = 0;
 	int i = -1;
 	while (i++, str[i])
 	{
@@ -40,7 +41,56 @@ t_pointmeta	getmeta(char *str)
 	}
 	meta.rows++;
 	meta.columns--;
+	//meta.size = meta.rows * meta.columns;
 	printf("\nsize = %d\nrows = %d\ncolumns = %d\n", meta.size, meta.rows, meta.columns);
+	meta.length = 0;
+	return (meta);
+}
+//rows = number of newlines + 1.
+int	getrows(char *str)
+{
+	int	i;
+	int 	rows;
+
+	i = -1;
+	rows = 0;
+	while (i++, str[i])
+		if(str[i] == '\n' || str[i] == 0)
+			rows++;
+	printf("rows = %d\n", rows);
+	return (rows);
+}
+//columns = number of non ' ' strings before the first newline.
+int	getcolumns(char *str)
+{
+	int	i;
+	int	columns;
+
+	i = 0;
+	columns = 0;
+	while (str[i] && str[i] != '\n')
+	{
+		if (str[i] != ' ')
+		{
+			if (i == 0)
+				columns++;
+			else if (i != 0 && str[i-1] == ' ')
+				columns++;
+		}
+		i++;
+	}
+	printf("columns = %d\n", columns);
+	return (columns);
+}
+
+t_pointmeta	getmeta2(char *str)
+{
+	t_pointmeta	meta;
+	meta.rows = getrows(str);
+	meta.columns = getcolumns(str);
+	meta.size = meta.rows * meta.columns; 
+	meta.length = 0;
+	printf("size = %d\n", meta.size);
 	return (meta);
 }
 //resolution is 1440 x 900
@@ -95,8 +145,14 @@ void	ft_setpoint(char **str, t_point *point, int x, int y)
 		point->color = 0xFFFFFF;
 	else
 		point->color = (0xFFFFFF) - (838848 * point->z);
-	point->colorset = 0;
 	*str = *str + ft_getnbrlen(point->z);
+}
+
+void	ft_setcolor(char **str, t_point *point)
+{
+	*str = *str + 3;
+	point->color = ft_atoi_hexa(*str);
+	*str = *str + 7;
 }
 //resolution ; 1440 x 900
 int	adjustlength(t_pointmeta meta)
@@ -125,28 +181,28 @@ t_mapdata	ft_convert(char *str)
 	int	originY;
 	int	len;
 
-	mapdata.meta = getmeta(str);
+	mapdata.meta = getmeta2(str);
 	mapdata.points = (t_point *)malloc(mapdata.meta.size * sizeof(t_point));
-	//len = 100;
 	len = adjustlength(mapdata.meta);
+	//len = 100;
 	originX = 0 - len;
 	originY = 0;
 	centralize(&originX, &originY, mapdata.meta, len);
-	//adjustlength(&len);
 	x = originX;
 	y = originY;
-	//z = 0;
+	mapdata.meta.length = len;
 	i = 0;
-	printf("\npoints:\n");
 	while (*str)
 	{
 		if(*str == '-' || (*str >= '0' && *str <= '9'))
 		{
 			x = x + len;
 			ft_setpoint(&str, &mapdata.points[i], x,  y);
-			printf("%d: x = %d, y = %d, z = %d, color = %d\n", i, mapdata.points[i].x, mapdata.points[i].y, mapdata.points[i].z, mapdata.points[i].color);
+			//printf("%d: x = %d, y = %d, z = %d, color = %d\n", i, mapdata.points[i].x, mapdata.points[i].y, mapdata.points[i].z, mapdata.points[i].color);
 			i++;
 		}
+		else if (*str == ',')
+			ft_setcolor(&str, &mapdata.points[i - 1]);
 		else if (*str == '\n')
 		{
 			x = originX;
@@ -157,11 +213,18 @@ t_mapdata	ft_convert(char *str)
 			str++;
 	}
 	//mapdata = ft_transform(mapdata, 0.7854, 0.52);
-	//mapdata = ft_transform(mapdata, 0.7854, 0.7500);
+	mapdata = ft_transform(mapdata, -0.7854, 0.7500);
 	//mapdata = ft_transform(mapdata, 0.7854, 0.0);
-	//mapdata = ft_transform(mapdata, 0.25, 0.0);
-	mapdata = ft_transform(mapdata, 0.0, 0.0);
+	//mapdata = ft_transform(mapdata, 0.25, 0.7500);
+	//mapdata = ft_transform(mapdata, 0.0, 0.0);
 	//mapdata = ft_transform(mapdata, 0.7854, 0.7500);
+	i = 0;
+	while (i < mapdata.meta.size)
+	{
+		printf("%d: x = %d, y = %d, z = %d, color = %d\n", i, mapdata.points[i].x, mapdata.points[i].y, mapdata.points[i].z, mapdata.points[i].color);
+		i++;
+	}
+
 	return (mapdata);
 }
 

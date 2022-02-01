@@ -47,7 +47,6 @@ typedef struct s_point
 	int	y;
 	int	z;
 	int	color;
-	int	colorset;
 }	t_point;
 /*points metadata, for creating point array*/
 typedef struct s_pointmeta
@@ -55,6 +54,7 @@ typedef struct s_pointmeta
 	int size;
 	int rows;
 	int columns;
+	int length;
 }	t_pointmeta;
 
 typedef	struct	s_mapdata

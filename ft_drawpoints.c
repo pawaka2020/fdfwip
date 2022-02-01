@@ -84,10 +84,10 @@ void	printcolumns(void *mlx, void *win, t_mapdata mapdata)
 	k = 0;
 	while  (k < mapdata.meta.columns )
 	{
-		while (j < mapdata.meta.rows - 2)
+		while (j < mapdata.meta.rows - 1)
 		{
 			ft_drawline(mapdata.points[i], mapdata.points[i + mapdata.meta.columns], mlx, win);
-			//printf("DRAWCOLUMN: %d to %d\n", i, i + mapdata.meta.columns);
+			printf("DRAWCOLUMN: %d to %d\n", i, i + mapdata.meta.columns);
 			i = i + mapdata.meta.columns;
 			j++;
 		}
@@ -101,10 +101,8 @@ void    ft_drawpoints(t_mapdata mapdata, void *mlx, void *win)
 {
 	//mlx_pixel_put(mlx, win, 1440/2, 900/2 - 50, 0xFF0000);
 	printrows(mlx, win, mapdata);
-	//ft_drawline(mapdata.points[0], mapdata.points[0 + 1], mlx, win);
 	printcolumns(mlx, win, mapdata);
 	//printdots(mlx, win, mapdata);
-	//mlx_pixel_put(mlx, win, 720, 400, 0xFF0000);
 	mlx_pixel_put(mlx, win, 720, 400, 8388736);
 }
 //mlx_pixel_put(mlx, win, 100, 100, 0xFFFFFFFF);

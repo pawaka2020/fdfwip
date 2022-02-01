@@ -10,6 +10,6 @@ FLAGS = -Wall -Wextra -Werror
 #	gcc main.c minilibx/libmlx_Linux.a -L/usr/lib/x86_64-linux-gnu -lXext -lX11 -lm
 	#$(COMPILE)
 all:
-	gcc *.c *.a minilibx/libmlx_Linux.a -L/usr/lib/x86_64-linux-gnu -lXext -lX11 -lm
+	gcc *.c *.a minilibx/libmlx_Linux.a -L/usr/lib/x86_64-linux-gnu -lXext -lX11 -lm -o fdf
 map:	all
-	./a.out maps/42.fdf
+	./fdf maps/easy.fdf

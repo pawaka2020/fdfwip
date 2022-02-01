@@ -43,7 +43,6 @@ double	getradians(float deltaX, float deltaY)
 	return (oldrad);
 }
 
-
 t_mapdata       ft_transform(t_mapdata mapdata, float rad1, float rad2)
 {
 	t_mapdata	mapdata2;
@@ -84,14 +83,19 @@ t_mapdata       ft_transform(t_mapdata mapdata, float rad1, float rad2)
 		deltaY = tangent * sin(newrad);
 		//printf("after transformation, deltaX = %f, deltaY = %f\n", deltaX, deltaY);
 		x = deltaX + centerX;
+		//x = centerX - deltaX;
+		//nothing
+		//x = deltaX - centerX;
 		//y = deltaY + centerY;
 		y = centerY - deltaY;
+		//y = deltaY - centerY;
 		mapdata2.points[i].x = x;
 		mapdata2.points[i].y = y;
 		//upward flipping
 		mapdata2.points[i].y = centerY - (deltaY * cos(rad2));
 		//with z
-		mapdata2.points[i].y = mapdata2.points[i].y + (mapdata2.points[i].z * sin(rad2) * 10 * -1);
+		//mapdata2.points[i].y = mapdata2.points[i].y + (mapdata2.points[i].z * sin(rad2) * 10 * -1);
+		mapdata2.points[i].y = mapdata2.points[i].y + (mapdata2.points[i].z * sin(rad2) * mapdata2.meta.length/8 * -1);
 		//printf("after transformation, x = %d, y = %d, i = %d\n", mapdata2.points[i].x, mapdata2.points[i].y, i);
 		i++;
 	}
