@@ -17,35 +17,7 @@ get array of t_point from map using ft_getpoints (refer to fdf.h for t_point)
 draw points first with ft_drawpoints, then connect rows and colums
 with ft_joinrows and ft_joincolumns respectively.
 */
-t_pointmeta	getmeta(char *str)
-{
-	t_pointmeta	meta;
 
-	meta.size = 0;
-	meta.rows = 0;
-	meta.columns = 0;
-	meta.length = 0;
-	int i = -1;
-	while (i++, str[i])
-	{
-		if (str[i] == ' ' || str[i] == '\n')
-		{
-			meta.size++;
-			if (str[i] == '\n')
-			{
-				meta.rows++;
-				if (meta.rows == 1)
-					meta.columns = meta.size + 1;
-			}
-		}
-	}
-	meta.rows++;
-	meta.columns--;
-	//meta.size = meta.rows * meta.columns;
-	printf("\nsize = %d\nrows = %d\ncolumns = %d\n", meta.size, meta.rows, meta.columns);
-	meta.length = 0;
-	return (meta);
-}
 //rows = number of newlines + 1.
 int	getrows(char *str)
 {
@@ -150,24 +122,56 @@ void	ft_setpoint(char **str, t_point *point, int x, int y)
 
 void	ft_setcolor(char **str, t_point *point)
 {
+	int	i;
+
+	i = 0;
 	*str = *str + 3;
 	point->color = ft_atoi_hexa(*str);
+	while (**str != ' ' && **str != 0 && **str != '\n')
+	{
+		i++;
+		*str = *str + 1;
+	}
+	//printf("skipped %d times\n", i);
+	/*
 	*str = *str + 7;
+	*/
 }
 //resolution ; 1440 x 900
-int	adjustlength(t_pointmeta meta)
+double	adjustlength(t_pointmeta meta)
 {
-	int	length;
+	double	length;
 	int	columns = meta.columns;
 	int	rows = meta.rows;
 
-	int size1 = (1440 * 0.75)/columns;
-	int size2 = (900 * 0.75)/rows;
+	int size1 = (1440 * 1.5708)/columns;
+	int size2 = (900 * 0.60)/rows;
 	if (size1 > size2)
 		length = size2;
 	else
 		length = size1;
+	printf("length = %f\n", length);
 	return (length);
+}
+/*
+	minimum length = 1
+	the bigger between columns and rows/640
+*/
+int	getlength(t_pointmeta meta)
+{
+
+	int	length;
+
+	if(meta.columns > meta.rows)
+		length = (800 * 10/10)/meta.columns;
+	else
+		length = (800 * 10/10)/meta.rows;
+	if (length < 1)
+		length = 1;
+	printf("length = %d\n", length);
+	return (length);
+
+	//return (20);
 }
 
 t_mapdata	ft_convert(char *str)
@@ -182,8 +186,9 @@ t_mapdata	ft_convert(char *str)
 	int	len;
 
 	mapdata.meta = getmeta2(str);
-	mapdata.points = (t_point *)malloc(mapdata.meta.size * sizeof(t_point));
-	len = adjustlength(mapdata.meta);
+	mapdata.points = (t_point*)malloc((mapdata.meta.size) * sizeof(t_point) * 10);
+	//mapdata.points = (t_point *)malloc(130 * sizeof(t_point *));
+	len = getlength(mapdata.meta);
 	//len = 100;
 	originX = 0 - len;
 	originY = 0;
@@ -202,7 +207,10 @@ t_mapdata	ft_convert(char *str)
 			i++;
 		}
 		else if (*str == ',')
+		{
+			//printf("setting color for %d", i - 1);
 			ft_setcolor(&str, &mapdata.points[i - 1]);
+		}
 		else if (*str == '\n')
 		{
 			x = originX;
@@ -212,19 +220,20 @@ t_mapdata	ft_convert(char *str)
 		else if (*str == ' ')
 			str++;
 	}
-	//mapdata = ft_transform(mapdata, 0.7854, 0.52);
+	//mapdata = ft_transform(mapdata, -0.7854, 1.5708);
 	mapdata = ft_transform(mapdata, -0.7854, 0.7500);
 	//mapdata = ft_transform(mapdata, 0.7854, 0.0);
 	//mapdata = ft_transform(mapdata, 0.25, 0.7500);
 	//mapdata = ft_transform(mapdata, 0.0, 0.0);
 	//mapdata = ft_transform(mapdata, 0.7854, 0.7500);
+	/*
 	i = 0;
 	while (i < mapdata.meta.size)
 	{
 		printf("%d: x = %d, y = %d, z = %d, color = %d\n", i, mapdata.points[i].x, mapdata.points[i].y, mapdata.points[i].z, mapdata.points[i].color);
 		i++;
 	}
-
+	*/
 	return (mapdata);
 }
 
@@ -248,7 +257,7 @@ char	*ft_getstring(char *map)
 			str = ft_strjoin(str, str2);
 	}
 	free(str2);
-	printf("read result:\n%s\n", str);
+	//printf("read result:\n%s\n", str);
 	return (str);
 }
 

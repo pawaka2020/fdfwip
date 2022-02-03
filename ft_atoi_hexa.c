@@ -28,11 +28,18 @@ int     ft_atoi_hexa(char *str)
 {
 	int	i;
 	int	res;
+	char	c;
 
 	i = -1;
 	res = 0;
+	c = 0;
 	while(i++, str[i] && str[i] != ' ')
-		res = (res * 16) + getnb(str[i]);
+	{
+		c = str[i];
+		if (c >= 97 && c <= 102)
+			c = c - 32;
+		res = (res * 16) + getnb(c);
+	}
 	return (res);
 }
 /*
